@@ -1,0 +1,147 @@
+<html>
+<head>
+<style>
+body {
+  background-color: White;
+  background-color:lightblue;
+  font-family:'Playfair Display'
+  font-size: large;
+  margin-left: 40px;
+  margin-right: 80px;
+  display: block;
+  font-size: 1.75em;
+  line-height: 110%;
+  margin: 30;
+  padding-top: 35px;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;}
+</style>
+<!-- MathJax -->
+<script type="text/javascript"
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+</head>
+<body>
+  <title>StemHacks: Lisp: Language of The Gods</title>
+  <h2>StemHacks: Lisp: Language of The Gods</h2>
+<p><hr></p>
+
+  <p>
+    To the extent that Love has any reality -- I mean True Love, not lust
+or infatuation, but The One True Love of One's Life -- My OTL is Lisp.
+Okay, so it's a bit ... weird? ... to be in love with a programming
+language, but I've spent almost literally every day with Lisp since I
+was around 17, so over 45 years now, and we've never had anything but
+    a wonderful time together. If that's not True Love, what is?!
+  </p>
+
+  <p>
+    And after all these years, I'm still being surprised by the wonders
+that Lisp is capable of. Here I'll relate just one recent terrific
+    experince Lisp and I had together.
+  </p>
+
+  <p>
+
+    One of the many wonderful facts of Lisp is that many functions
+    that in lesser languages are given what they think of as "concise"
+    function names, are often written out in full, or at least
+    legibly, in lisp. This isn't always the case; there is a nod here
+    and there to "standard" notation. For example, "+" indicates
+    addition and "-" subtraction, as in the standard math usages, and
+    as in standard computer usage, "*" mean multiplication. (Actually,
+    in the earliest lisps these were "ADD", etc.) But many other
+    functions are written out, or given pronouncable
+    abbreviations. For example, "COUNT", "AREF" (for array reference),
+    and so on.
+  </p>
+
+  <p>
+    Some lesser-minded programmers think of this as merely annoying
+    verbosity; requiring more keystrokes than absolutely required is
+    anathema to some. Their loss! The great thing about pronouceable
+    function names is that you can read your code more-or-less as if
+    it was a natural language spec of the algoritm. It's sort of the
+    half-way point between COBOL, which was way too vebose, and APL,
+    which was gibberish. Algol-like languages such as C and its
+    progeny take a different middle-road stance on this than
+    Lisp. Perhaps because I was captured by Lisp early (although I did
+    know Fortran, BASIC, and IBM assembler before learning Lisp), I
+    prefer Lisp's choices in this space.
+  </p>
+
+  <p>
+    For the most part, anyway! There is one critical choice of name
+    that Lisp made wrongly, in my humble opinion, that is of the
+    function-construtors: FUNCTION (abbreviated #'...) and
+    LAMBDA. These create functions, and in practice are used where you
+    need an ananymous function, for example: <\p>
+
+    <pre><code>
+      (mapcar #'(lambda (a b c) (+ c (* a b))) '(1 2 3) '(4 5 6) '(7 8 9))
+      => (11 18 27)
+      ;;; Or equivalently:
+      (mapcar (function (lambda (a b c) (+ c (* a b)))) '(1 2 3) '(4 5 6) '(7 8 9))
+      (mapcar (lambda (a b c) (+ c (* a b))) '(1 2 3) '(4 5 6) '(7 8 9))
+      ;;; But this is wrong!
+      (mapcar (function (a b c) (+ c (* a b))) '(1 2 3) '(4 5 6) '(7 8 9))
+      </code></pre>
+
+    <p>
+      The detailed relationship between these is a bit complex, and
+      different Lisp programmers have different habits with them. I
+      tend to use the first form above, but I've had different
+      opinions from different Lisp programmers as to which is correct
+      or redundant. But beacuse of the availability of the
+      #'... abbreviation, no one ever writes out FUNCTION, even though
+      it's implied when you write #'...
+      </p>
+
+    <p>
+      The LAMBDA is definitely not irrelevant! It wraps the the
+      arguments, (a b c) in the above, into the body (+ ...), and then
+      FUNCTION (or #'...) turns that package into a function. Note
+      that the form without the LAMBDA is incorrect: FUNCTION only
+      expects a single argument. You can, for example, name a function
+      by using its symbol. For example in the following you don't need
+      to LAMBDA because + is already a function; FUNCTION just gets
+      the function object linked to the + symbol, whereas the LAMBDAs
+      in the above examples <em>create a new function</em>.
+      </p>
+
+    <pre><code>
+      (mapcar #'+ '(1 2 3) '(4 5 6))
+      => (5 7 9)
+      ;;; Or equivalently:
+      (mapcar (function +) '(1 2 3) '(4 5 6))
+      </code></pre>
+
+    <p>
+      But regardless of whether you write #'(LAMBDA ...) or leave out
+      the #'..., when anonymous functions are being employed, the word
+      LAMBDA is in the way of fluent reading.
+      </p>
+
+    <p>
+      For years I've wanted something that would make anonymous
+      functions, like the example above, more fluent. (It turns out
+      that, after I wrote this whole thing, I discovered that others
+      have had this problem as well, and some have famously fixed it
+      in what turns out to be a very similar way as my solution, for
+      example, Rich Hickey in Clojure.)
+      </p>
+
+<p><hr></p>
+</body>
+</html>
+
